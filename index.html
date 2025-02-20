@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #0044cc;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        header img {
+            max-width: 100px;
+            display: block;
+            margin: 0 auto 10px;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background: #333;
+            padding: 10px;
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            margin: 5px;
+            font-size: 18px;
+            background: #444;
+            border-radius: 5px;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+        nav a:hover {
+            background: #555;
+            transform: scale(1.1);
+        }
+        .container {
+            text-align: center;
+            padding: 50px;
+        }
+        .card {
+            background: white;
+            padding: 25px;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        #latest-announcement {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px;
+            text-align: center;
+        }
+        #latest-announcement h2 {
+            color: #0044cc;
+        }
+    </style>
+</head>
+<body>
+    
+    <header>
+        <img src="School monogram.PNG" alt="Noble Children's School">
+        <h1>Welcome to the Official Website <br> of Noble Children's School</h1>
+    </header>
+    
+    <div id="latest-announcement">
+        <h2>📢 Latest Announcement</h2>
+        <p id="announcement-text" style="font-size: 18px; font-weight: bold;">No announcements yet.</p>
+    </div>
+    
+    <nav>
+        <a href="syllabus.html">Syllabus</a>
+        <a href="scores.html">Exam Scores</a>
+        <a href="assignments.html">Assignments</a>
+        <a href="timetable.html">Timetable</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+    
+    <div class="container">
+        <div class="card">
+            <h2>About This Portal</h2>
+            <p>This website helps students access syllabuses, exam scores, assignments, and timetables easily.</p>
+        </div>
+        <div class="card">
+            <h2>Latest Announcements</h2>
+            <p><strong>📢 No Announcements 📢<br> Stay Tuned!!</strong></p>
+        </div>
+    </div>
+    
+    <script>
+        function fetchAnnouncement() {
+            fetch('http://localhost:3000/announcement')
+                .then(response => response.json())
+                .then(data => {
+                    let announcementElement = document.getElementById('announcement-text');
+                    announcementElement.textContent = data.message || "No announcements yet.";
+                })
+                .catch(error => console.error('Error fetching announcement:', error));
+        }
+        
+        window.onload = fetchAnnouncement;
+    </script>
+</body>
+</html>

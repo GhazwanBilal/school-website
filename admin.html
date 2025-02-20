@@ -1,0 +1,87 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Add Announcement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin: auto;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+        }
+        button {
+            padding: 10px 20px;
+            background: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: darkgreen;
+        }
+        #confirmation {
+            margin-top: 10px;
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Admin Panel - Add Announcement</h2>
+        <textarea id="announcementInput" placeholder="Type your announcement here..."></textarea><br>
+        <button onclick="submitAnnouncement()">Submit Announcement</button>
+        <p id="confirmation"></p>
+    </div>
+
+    <script>
+        function submitAnnouncement() {
+            const message = document.getElementById('announcementInput').value;
+    
+            if (message.trim() === "") {
+                alert("Please enter an announcement!"); 
+                return;
+            }
+    
+            fetch('http://localhost:3000/add-announcement', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('confirmation').textContent = data.message; // ✅ Show confirmation
+                document.getElementById('announcementInput').value = ""; // ✅ Clear input
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Failed to add announcement!");
+            });
+        }
+    </script>
+</body>
+</html>

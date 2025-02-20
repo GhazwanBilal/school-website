@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignments</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #0044cc;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+        }
+        nav {
+            background-color: #333;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 10px;
+            padding: 8px 15px;
+            background: #444;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        nav a:hover {
+            background: #555;
+            transform: scale(1.1);
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+        }
+        ul { list-style: none; padding: 0; }
+        li {
+            background: white;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            background: #0044cc;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background: #002a80;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <header>Assignments</header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="timetable.html">Timetable</a>
+        <a href="exam_scores.html">Exam Scores</a>
+        <a href="assignments.html">Assignments</a>
+        <a href="syllabus.html">Syllabus</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+    
+    <div class="container">
+        <div class="card">
+            <h2>Available Assignments</h2>
+            <ul id="assignmentList"></ul>
+        </div>
+        
+        <div class="card">
+            <h3>Submit Your Assignment</h3>
+            <form id="uploadForm" enctype="multipart/form-data">
+                <input type="file" id="assignmentFile" required>
+                <button type="submit">Upload</button>
+            </form>
+            <p id="uploadStatus"></p>
+        </div>
+    </div>
+    
+    <script>
+        function fetchAssignments() {
+            fetch('http://localhost:3000/assignments')
+                .then(response => response.json())
+                .then(data => {
+                    let list = document.getElementById('assignmentList');
+                    list.innerHTML = '';
+                    data.forEach(assignment => {
+                        let li = document.createElement('li');
+                        li.textContent = `${assignment.subject}: ${assignment.title} (Due: ${assignment.due_date})`;
+                        list.appendChild(li);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+        fetchAssignments();
+        
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let fileInput = document.getElementById('assignmentFile');
+            let formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+            
+            fetch('http://localhost:3000/upload-assignment', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('uploadStatus').textContent = data.message;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>

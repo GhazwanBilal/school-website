@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syllabus - School Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #0044cc;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background: #333;
+            padding: 15px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            margin: 5px;
+            background: #444;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        nav a:hover {
+            background: #555;
+            transform: scale(1.1);
+        }
+        .container {
+            text-align: center;
+            padding: 50px 20px;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 700px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        .syllabus-list {
+            list-style: none;
+            padding: 0;
+        }
+        .syllabus-list li {
+            background: white;
+            margin: 10px auto;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            transition: transform 0.3s ease;
+        }
+        .syllabus-list li:hover {
+            transform: scale(1.05);
+        }
+        .syllabus-list li a {
+            text-decoration: none;
+            color: #0044cc;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        .syllabus-list li a:hover {
+            color: #002288;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Syllabus</h1>
+    </header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="scores.html">Exam Scores</a>
+        <a href="assignments.html">Assignments</a>
+        <a href="timetable.html">Timetable</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+    <div class="container">
+        <div class="card">
+            <h2>Available Syllabuses</h2>
+            <ul class="syllabus-list">
+                <li><a href="#">Mathematics - Download PDF</a></li>
+                <li><a href="#">Science - Download PDF</a></li>
+                <li><a href="#">History - Download PDF</a></li>
+                <li><a href="#">English - Download PDF</a></li>
+                <li><a href="#">Computer Science - Download PDF</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
