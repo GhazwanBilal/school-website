@@ -3,17 +3,23 @@ const mysql = require('mysql');
 const cors = require('cors');
 
 const app = express();
-app.use(cors());
+
+// ✅ Improved CORS Configuration
+app.use(cors({
+    origin: '*', // Allow all origins
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type']
+}));
 app.use(express.json()); // ✅ Allows handling JSON requests
 
-// ✅ Connect to MySQL Database
+// ✅ Connect to MySQL Database with explicit port
 const db = mysql.createConnection({
-    host: 'sql12.freesqldatabase.com', // e.g., sql123.infinityfree.com
-    user: 'sql12763861', // e.g., epiz_12345678
-    password: 'TzWTB1YTtp',
-    database: 'sql12763861' // e.g., epiz_12345678_school
+    host: 'sql12.freesqldatabase.com',  // Your MySQL host
+    user: 'sql12763861',  // Your MySQL username
+    password: 'TzWTB1YTtp',  // Your MySQL password
+    database: 'sql12763861',  // Your database name
+    port: 3306 // ✅ Ensure MySQL is using the correct port
 });
-
 
 db.connect(err => {
     if (err) {
@@ -21,6 +27,11 @@ db.connect(err => {
         throw err;
     }
     console.log('✅ MySQL Connected...');
+});
+
+// ✅ Default Route (Fixes "Cannot GET /")
+app.get('/', (req, res) => {
+    res.send('✅ Backend is Live! Use API endpoints.');
 });
 
 // ✅ API to Get the Latest Announcement
@@ -37,14 +48,17 @@ app.get('/announcement', (req, res) => {
 // ✅ API to Add a New Announcement
 app.post('/add-announcement', (req, res) => {
     const { message } = req.body;
+
     if (!message || message.trim() === "") {
+        console.error("❌ Received empty announcement request.");
         return res.status(400).json({ message: "Announcement cannot be empty!" });
     }
-    
-    db.query("INSERT INTO announcements (message) VALUES (?)", [message], (err, result) => {
+
+    const sql = "INSERT INTO announcements (message) VALUES (?)";
+    db.query(sql, [message], (err, result) => {
         if (err) {
-            console.error('❌ Error inserting announcement:', err);
-            return res.status(500).json({ message: "Database error!" });
+            console.error("❌ MySQL Insert Error:", err);
+            return res.status(500).json({ message: "Database error!", error: err });
         }
         res.json({ message: "✅ Announcement added successfully!" });
     });
@@ -55,6 +69,9 @@ process.on('uncaughtException', err => {
     console.error('❌ Uncaught Exception:', err);
 });
 
-// ✅ Start Server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+// ✅ Start the Server
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+});
+
