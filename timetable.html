@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,6 @@
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
-            text-align: center;
         }
         header {
             background: #0044cc;
@@ -22,59 +21,67 @@
         nav {
             display: flex;
             justify-content: center;
-            background: #333;
-            padding: 10px;
+            background: #005bb5;
+            padding: 10px 0;
         }
         nav a {
             color: white;
             text-decoration: none;
-            margin: 5px;
-            padding: 10px 20px;
-            background: #444;
-            border-radius: 5px;
-            transition: all 0.3s ease;
+            margin: 0 15px;
+            font-size: 18px;
+            padding: 8px 12px;
+            transition: 0.3s;
         }
         nav a:hover {
-            background: #555;
-            transform: scale(1.1);
+            background: #003f7f;
+            border-radius: 5px;
         }
         .container {
-            padding: 20px;
-        }
-        table {
-            width: 90%;
             max-width: 800px;
             margin: 20px auto;
-            border-collapse: collapse;
+            padding: 20px;
             background: white;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
+            border-radius: 8px;
+        }
+        .dropdown {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            outline: none;
+            transition: 0.3s;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
         }
         th, td {
-            border: 1px solid #ddd;
             padding: 12px;
             text-align: center;
+            border: 1px solid #ddd;
         }
         th {
-            background-color: #0044cc;
+            background: #0073e6;
             color: white;
         }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
         @media (max-width: 600px) {
+            table, th, td {
+                font-size: 14px;
+            }
             nav {
                 flex-direction: column;
-                align-items: center;
+                text-align: center;
             }
             nav a {
-                width: 80%;
-                text-align: center;
-                margin: 5px 0;
-            }
-            table {
-                width: 100%;
+                padding: 10px;
+                display: block;
             }
         }
     </style>
@@ -86,38 +93,66 @@
     <nav>
         <a href="index.html">Home</a>
         <a href="timetable.html">Timetable</a>
-        <a href="exam_scores.html">Exam Scores</a>
-        <a href="assignments.html">Assignments</a>
         <a href="syllabus.html">Syllabus</a>
-        <a href="contact.html">Contact</a>
+        <a href="assignments.html">Assignments</a>
     </nav>
     <div class="container">
-        <table>
-            <tr>
-                <th>Time</th>
-                <th>Monday</th>
-                <th>Tuesday</th>
-                <th>Wednesday</th>
-                <th>Thursday</th>
-                <th>Friday</th>
-            </tr>
-            <tr>
-                <td>8:00 - 9:00 AM</td>
-                <td>Math</td>
-                <td>Science</td>
-                <td>English</td>
-                <td>History</td>
-                <td>Geography</td>
-            </tr>
-            <tr>
-                <td>9:00 - 10:00 AM</td>
-                <td>English</td>
-                <td>Math</td>
-                <td>Science</td>
-                <td>Physical Ed.</td>
-                <td>Art</td>
-            </tr>
+        <div class="dropdown">
+            <label for="class-select">Select Class: </label>
+            <select id="class-select" onchange="showTimetable()">
+                <option value="class1">Class 1</option>
+                <option value="class2">Class 2</option>
+                <option value="class3">Class 3</option>
+            </select>
+        </div>
+        <table id="timetable">
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>9:00 - 10:00</th>
+                    <th>10:00 - 11:00</th>
+                    <th>11:00 - 12:00</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Monday</td>
+                    <td>Math</td>
+                    <td>English</td>
+                    <td>Science</td>
+                </tr>
+            </tbody>
         </table>
     </div>
+    <script>
+        const timetables = {
+            class1: [
+                ['Monday', 'Math', 'English', 'Science'],
+                ['Tuesday', 'History', 'Geography', 'PE']
+            ],
+            class2: [
+                ['Monday', 'Physics', 'Chemistry', 'Biology'],
+                ['Tuesday', 'Math', 'English', 'Computer']
+            ],
+            class3: [
+                ['Monday', 'Economics', 'Business', 'Accounting'],
+                ['Tuesday', 'Math', 'Statistics', 'Finance']
+            ]
+        };
+        function showTimetable() {
+            const selectedClass = document.getElementById('class-select').value;
+            const tableBody = document.querySelector('#timetable tbody');
+            tableBody.innerHTML = '';
+            timetables[selectedClass].forEach(row => {
+                const tr = document.createElement('tr');
+                row.forEach(cell => {
+                    const td = document.createElement('td');
+                    td.textContent = cell;
+                    tr.appendChild(td);
+                });
+                tableBody.appendChild(tr);
+            });
+        }
+    </script>
 </body>
 </html>
