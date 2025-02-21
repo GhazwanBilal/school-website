@@ -8,10 +8,10 @@ app.use(express.json()); // ✅ Allows handling JSON requests
 
 // ✅ Connect to MySQL Database
 const db = mysql.createConnection({
-    host: 'sql.freedb.tech', // e.g., sql123.infinityfree.com
-    user: 'freedb_ghazwanbilal', // e.g., epiz_12345678
-    password: 'nuR26EXb*e4Bez!',
-    database: 'freedb_db_schoolportal_gb' // e.g., epiz_12345678_school
+    host: 'sql12.freesqldatabase.com', // e.g., sql123.infinityfree.com
+    user: 'sql12763861', // e.g., epiz_12345678
+    password: 'TzWTB1YTtp',
+    database: 'sql12763861' // e.g., epiz_12345678_school
 });
 
 
