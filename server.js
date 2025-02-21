@@ -10,7 +10,7 @@ app.use(express.json()); // ✅ Allows handling JSON requests
 const db = mysql.createConnection({
     host: 'sql.freedb.tech', // e.g., sql123.infinityfree.com
     user: 'freedb_ghazwanbilal', // e.g., epiz_12345678
-    password: 'nuR26EXb*e4Bez! ',
+    password: 'nuR26EXb*e4Bez',
     database: 'freedb_db_schoolportal_gb' // e.g., epiz_12345678_school
 });
 
