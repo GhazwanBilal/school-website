@@ -7,152 +7,138 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            text-align: center;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
         }
-        header {
-            background: #0044cc;
-            color: white;
-            padding: 15px;
-            text-align: center;
-            font-size: 24px;
-        }
-        nav {
-            display: flex;
-            justify-content: center;
-            background: #005bb5;
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
             padding: 10px 0;
         }
-        nav a {
+        .navbar a {
             color: white;
             text-decoration: none;
-            margin: 0 15px;
-            font-size: 18px;
-            padding: 8px 12px;
-            transition: 0.3s;
+            padding: 14px 20px;
+            display: inline-block;
         }
-        nav a:hover {
-            background: #003f7f;
-            border-radius: 5px;
+        .navbar a:hover {
+            background-color: #575757;
         }
         .container {
-            max-width: 800px;
             margin: 20px auto;
-            padding: 20px;
-            background: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            max-width: 90%;
         }
         .dropdown {
-            display: flex;
-            justify-content: center;
             margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
         }
-        select {
+        .dropdown select {
             padding: 10px;
             font-size: 16px;
             border-radius: 5px;
-            border: 1px solid #ccc;
-            outline: none;
-            transition: 0.3s;
+        }
+        .table-container {
+            overflow-x: auto;
+            white-space: nowrap;
+            max-width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 10px;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
         }
         th, td {
-            padding: 12px;
+            border: 1px solid black;
+            padding: 8px;
             text-align: center;
-            border: 1px solid #ddd;
         }
         th {
-            background: #0073e6;
-            color: white;
-        }
-        @media (max-width: 600px) {
-            table, th, td {
-                font-size: 14px;
-            }
-            nav {
-                flex-direction: column;
-                text-align: center;
-            }
-            nav a {
-                padding: 10px;
-                display: block;
-            }
+            background-color: #f2f2f2;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>School Timetable</h1>
-    </header>
-    <nav>
+    <div class="navbar">
         <a href="index.html">Home</a>
-        <a href="timetable.html">Timetable</a>
         <a href="syllabus.html">Syllabus</a>
         <a href="assignments.html">Assignments</a>
-    </nav>
+        <a href="timetable.html">Timetable</a>
+    </div>
+
     <div class="container">
+        <h1>School Timetable</h1>
         <div class="dropdown">
-            <label for="class-select">Select Class: </label>
-            <select id="class-select" onchange="showTimetable()">
+            <label for="classSelect">Select Class:</label>
+            <select id="classSelect" onchange="showTimetable()">
                 <option value="class1">Class 1</option>
                 <option value="class2">Class 2</option>
                 <option value="class3">Class 3</option>
             </select>
         </div>
-        <table id="timetable">
-            <thead>
-                <tr>
-                    <th>Day</th>
-                    <th>9:00 - 10:00</th>
-                    <th>10:00 - 11:00</th>
-                    <th>11:00 - 12:00</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Monday</td>
-                    <td>Math</td>
-                    <td>English</td>
-                    <td>Science</td>
-                </tr>
-            </tbody>
-        </table>
+
+        <div id="timetableDisplay" class="table-container">
+            <table id="timetableTable">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Subject</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>9:00 - 10:10</td>
+                        <td>Math</td>
+                    </tr>
+                    <tr>
+                        <td>10:10 - 11:00</td>
+                        <td>Science</td>
+                    </tr>
+                    <tr>
+                        <td>11:00 - 12:00</td>
+                        <td>English</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+
     <script>
         const timetables = {
             class1: [
-                ['Monday', 'Math', 'English', 'Science'],
-                ['Tuesday', 'History', 'Geography', 'PE']
+                { time: "9:00 - 10:10", subject: "Math" },
+                { time: "10:10 - 11:00", subject: "Science" },
+                { time: "11:00 - 12:00", subject: "English" }
             ],
             class2: [
-                ['Monday', 'Physics', 'Chemistry', 'Biology'],
-                ['Tuesday', 'Math', 'English', 'Computer']
+                { time: "9:00 - 10:10", subject: "Physics" },
+                { time: "10:10 - 11:00", subject: "Chemistry" },
+                { time: "11:00 - 12:00", subject: "Biology" }
             ],
             class3: [
-                ['Monday', 'Economics', 'Business', 'Accounting'],
-                ['Tuesday', 'Math', 'Statistics', 'Finance']
+                { time: "9:00 - 10:10", subject: "History" },
+                { time: "10:10 - 11:00", subject: "Geography" },
+                { time: "11:00 - 12:00", subject: "Civics" }
             ]
         };
+
         function showTimetable() {
-            const selectedClass = document.getElementById('class-select').value;
-            const tableBody = document.querySelector('#timetable tbody');
-            tableBody.innerHTML = '';
-            timetables[selectedClass].forEach(row => {
-                const tr = document.createElement('tr');
-                row.forEach(cell => {
-                    const td = document.createElement('td');
-                    td.textContent = cell;
-                    tr.appendChild(td);
-                });
-                tableBody.appendChild(tr);
+            const classSelected = document.getElementById("classSelect").value;
+            const timetableTable = document.getElementById("timetableTable").getElementsByTagName("tbody")[0];
+            timetableTable.innerHTML = "";
+            
+            timetables[classSelected].forEach(entry => {
+                let row = timetableTable.insertRow();
+                let cell1 = row.insertCell(0);
+                let cell2 = row.insertCell(1);
+                cell1.innerText = entry.time;
+                cell2.innerText = entry.subject;
             });
         }
     </script>
 </body>
 </html>
+
