@@ -8,11 +8,12 @@ app.use(express.json()); // ✅ Allows handling JSON requests
 
 // ✅ Connect to MySQL Database
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'school_db'
+    host: 'sql201.infinityfree.com', // e.g., sql123.infinityfree.com
+    user: 'if0_38363504', // e.g., epiz_12345678
+    password: 'En6Dg8VRuybd0Ei ',
+    database: 'if0_38363504_db_schoolportal' // e.g., epiz_12345678_school
 });
+
 
 db.connect(err => {
     if (err) {
