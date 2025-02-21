@@ -84,46 +84,42 @@
             <table id="timetableTable">
                 <thead>
                     <tr>
+                        <th>Day</th>
                         <th>Time</th>
                         <th>Subject</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>9:00 - 10:10</td>
-                        <td>Math</td>
-                    </tr>
-                    <tr>
-                        <td>10:10 - 11:00</td>
-                        <td>Science</td>
-                    </tr>
-                    <tr>
-                        <td>11:00 - 12:00</td>
-                        <td>English</td>
-                    </tr>
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
     </div>
 
     <script>
         const timetables = {
-            class1: [
-                { time: "9:00 - 10:10", subject: "sst" },
-                { time: "10:10 - 11:00", subject: "Science" },
-                { time: "11:00 - 12:00", subject: "English" },
-                {time:  "12:00 - 12:30", subject: "Prayer"  }
-            ],
-            class2: [
-                { time: "9:00 - 10:10", subject: "Physics" },
-                { time: "10:10 - 11:00", subject: "Chemistry" },
-                { time: "11:00 - 12:00", subject: "Biology" }
-            ],
-            class3: [
-                { time: "9:00 - 10:10", subject: "History" },
-                { time: "10:10 - 11:00", subject: "Geography" },
-                { time: "11:00 - 12:00", subject: "Civics" }
-            ]
+            class1: {
+                Monday: [
+                    { time: "9:00 - 10:10", subject: "Math" },
+                    { time: "10:10 - 11:00", subject: "Science" },
+                    { time: "11:00 - 12:00", subject: "English" }
+                ],
+                Tuesday: [
+                    { time: "9:00 - 10:10", subject: "History" },
+                    { time: "10:10 - 11:00", subject: "Geography" },
+                    { time: "11:00 - 12:00", subject: "Civics" }
+                ]
+            },
+            class2: {
+                Monday: [
+                    { time: "9:00 - 10:10", subject: "Physics" },
+                    { time: "10:10 - 11:00", subject: "Chemistry" },
+                    { time: "11:00 - 12:00", subject: "Biology" }
+                ],
+                Tuesday: [
+                    { time: "9:00 - 10:10", subject: "Math" },
+                    { time: "10:10 - 11:00", subject: "Science" },
+                    { time: "11:00 - 12:00", subject: "English" }
+                ]
+            }
         };
 
         function showTimetable() {
@@ -131,15 +127,20 @@
             const timetableTable = document.getElementById("timetableTable").getElementsByTagName("tbody")[0];
             timetableTable.innerHTML = "";
             
-            timetables[classSelected].forEach(entry => {
-                let row = timetableTable.insertRow();
-                let cell1 = row.insertCell(0);
-                let cell2 = row.insertCell(1);
-                cell1.innerText = entry.time;
-                cell2.innerText = entry.subject;
-            });
+            for (let day in timetables[classSelected]) {
+                timetables[classSelected][day].forEach(entry => {
+                    let row = timetableTable.insertRow();
+                    let cell1 = row.insertCell(0);
+                    let cell2 = row.insertCell(1);
+                    let cell3 = row.insertCell(2);
+                    cell1.innerText = day;
+                    cell2.innerText = entry.time;
+                    cell3.innerText = entry.subject;
+                });
+            }
         }
     </script>
 </body>
 </html>
+
 
