@@ -7,72 +7,110 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
             margin: 0;
             padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
         }
-        .navbar {
-            background-color: #333;
-            overflow: hidden;
-            padding: 10px 0;
+        header {
+            background: #0044cc;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
         }
-        .navbar a {
+        nav {
+            display: flex;
+            justify-content: center;
+            background: #333;
+            padding: 10px;
+            flex-wrap: wrap;
+        }
+        nav a {
             color: white;
             text-decoration: none;
-            padding: 14px 20px;
-            display: inline-block;
+            margin: 5px;
+            padding: 10px 20px;
+            background: #444;
+            border-radius: 5px;
+            transition: all 0.3s ease;
         }
-        .navbar a:hover {
-            background-color: #575757;
+        nav a:hover {
+            background: #555;
+            transform: scale(1.1);
         }
         .container {
-            margin: 20px auto;
-            max-width: 90%;
+            padding: 20px;
         }
         .dropdown {
-            margin-bottom: 20px;
-            position: relative;
-            display: inline-block;
+            margin: 10px auto;
+            text-align: center;
         }
-        .dropdown select {
+        select {
             padding: 10px;
             font-size: 16px;
             border-radius: 5px;
+            border: 1px solid #ccc;
+            outline: none;
         }
         .table-container {
-            overflow-x: auto;
-            white-space: nowrap;
-            max-width: 100%;
-            border: 1px solid #ddd;
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            overflow-y: auto;
+            max-height: 500px; /* Enables vertical scrolling */
             border-radius: 10px;
-            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background: white;
         }
         table {
             width: 100%;
             border-collapse: collapse;
         }
         th, td {
-            border: 1px solid black;
-            padding: 8px;
+            border: 1px solid #ddd;
+            padding: 12px;
             text-align: center;
         }
         th {
+            background-color: #0044cc;
+            color: white;
+        }
+        tr:nth-child(even) {
             background-color: #f2f2f2;
+        }
+        @media (max-width: 600px) {
+            nav {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav a {
+                width: 80%;
+                text-align: center;
+                margin: 5px 0;
+            }
+            table {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="navbar">
+    <header>
+        <h1>School Timetable</h1>
+    </header>
+    <nav>
         <a href="index.html">Home</a>
-        <a href="syllabus.html">Syllabus</a>
-        <a href="assignments.html">Assignments</a>
         <a href="timetable.html">Timetable</a>
-    </div>
+        <a href="exam_scores.html">Exam Scores</a>
+        <a href="assignments.html">Assignments</a>
+        <a href="syllabus.html">Syllabus</a>
+        <a href="contact.html">Contact</a>
+    </nav>
 
     <div class="container">
-        <h1>School Timetable</h1>
         <div class="dropdown">
-            <label for="classSelect">Select Class:</label>
+            <label for="classSelect"><strong>Select Class:</strong></label>
             <select id="classSelect" onchange="showTimetable()">
                 <option value="class1">Class 1</option>
                 <option value="class2">Class 2</option>
@@ -80,65 +118,72 @@
             </select>
         </div>
 
-        <div id="timetableDisplay" class="table-container">
-            <table id="timetableTable">
+        <div class="table-container">
+            <table>
                 <thead>
                     <tr>
-                        <th>Day</th>
                         <th>Time</th>
-                        <th>Subject</th>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody id="timetableBody"></tbody>
             </table>
         </div>
     </div>
 
     <script>
         const timetables = {
-            class1: {
-                Monday: [
-                    { time: "9:00 - 10:10", subject: "Math" },
-                    { time: "10:10 - 11:00", subject: "Science" },
-                    { time: "11:00 - 12:00", subject: "English" }
-                ],
-                Tuesday: [
-                    { time: "9:00 - 10:10", subject: "History" },
-                    { time: "10:10 - 11:00", subject: "Geography" },
-                    { time: "11:00 - 12:00", subject: "Civics" }
-                ]
-            },
-            class2: {
-                Monday: [
-                    { time: "9:00 - 10:10", subject: "Physics" },
-                    { time: "10:10 - 11:00", subject: "Chemistry" },
-                    { time: "11:00 - 12:00", subject: "Biology" }
-                ],
-                Tuesday: [
-                    { time: "9:00 - 10:10", subject: "Math" },
-                    { time: "10:10 - 11:00", subject: "Science" },
-                    { time: "11:00 - 12:00", subject: "English" }
-                ]
-            }
+            class1: [
+                ["8:00 - 9:00 AM", "Math", "Science", "English", "History", "Geography"],
+                ["9:00 - 10:00 AM", "English", "Math", "Science", "PE", "Art"],
+                ["10:00 - 11:00 AM", "History", "Biology", "Chemistry", "Math", "English"],
+                ["11:00 - 12:00 PM", "Physics", "Math", "Geography", "Science", "PE"],
+                ["12:00 - 1:00 PM", "Lunch", "Lunch", "Lunch", "Lunch", "Lunch"],
+                ["1:00 - 2:00 PM", "English", "Science", "History", "Math", "Art"],
+                ["2:00 - 3:00 PM", "PE", "Chemistry", "Geography", "Biology", "Music"]
+            ],
+            class2: [
+                ["8:00 - 9:00 AM", "Physics", "Math", "Chemistry", "English", "History"],
+                ["9:00 - 10:00 AM", "Math", "Biology", "Physics", "Geography", "PE"],
+                ["10:00 - 11:00 AM", "Science", "History", "Math", "English", "Art"],
+                ["11:00 - 12:00 PM", "English", "Physics", "Chemistry", "Biology", "Geography"],
+                ["12:00 - 1:00 PM", "Lunch", "Lunch", "Lunch", "Lunch", "Lunch"],
+                ["1:00 - 2:00 PM", "Geography", "Science", "History", "Math", "Music"],
+                ["2:00 - 3:00 PM", "PE", "Chemistry", "Physics", "English", "Math"]
+            ],
+            class3:[
+                ["8:00 - 9:00 AM", "Math", "Biology", "Physics", "Geography", "PE"],
+                ["9:00 - 10:00 AM", "Physics", "Math", "Chemistry", "English", "History"],
+                ["10:00 - 11:00 AM", "PE", "Chemistry", "Physics", "English", "Math"],
+                ["11:00 - 12:00 PM", "English", "Physics", "Chemistry", "Biology", "Geography"],
+                ["12:00 - 1:00 PM", "Lunch", "Lunch", "Lunch", "Lunch", "Lunch"],
+            ]
+                
+            
         };
 
         function showTimetable() {
             const classSelected = document.getElementById("classSelect").value;
-            const timetableTable = document.getElementById("timetableTable").getElementsByTagName("tbody")[0];
-            timetableTable.innerHTML = "";
-            
-            for (let day in timetables[classSelected]) {
-                timetables[classSelected][day].forEach(entry => {
-                    let row = timetableTable.insertRow();
-                    let cell1 = row.insertCell(0);
-                    let cell2 = row.insertCell(1);
-                    let cell3 = row.insertCell(2);
-                    cell1.innerText = day;
-                    cell2.innerText = entry.time;
-                    cell3.innerText = entry.subject;
+            const timetableBody = document.getElementById("timetableBody");
+            timetableBody.innerHTML = "";
+
+            timetables[classSelected].forEach(rowData => {
+                let row = document.createElement("tr");
+                rowData.forEach(cellData => {
+                    let cell = document.createElement("td");
+                    cell.innerText = cellData;
+                    row.appendChild(cell);
                 });
-            }
+                timetableBody.appendChild(row);
+            });
         }
+
+        // Load the first class timetable by default
+        window.onload = showTimetable;
     </script>
 </body>
 </html>
