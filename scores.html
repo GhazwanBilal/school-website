@@ -124,37 +124,37 @@
         </table>
     </div>
 
-    <script>
-        function fetchScores() {
-            let studentID = document.getElementById('studentID').value;
-            if (!studentID) {
-                alert('Please enter a Student ID');
-                return;
-            }
-
-            fetch(`http://localhost:3000/scores/${studentID}`)
-                .then(response => response.json())
-                .then(data => {
-                    let tableBody = document.getElementById('scoresBody');
-                    tableBody.innerHTML = '';
-
-                    if (data.length === 0) {
-                        let row = tableBody.insertRow();
-                        let cell = row.insertCell(0);
-                        cell.colSpan = 2;
-                        cell.textContent = "No records found";
-                        return;
-                    }
-
-                    data.forEach(score => {
-                        let row = tableBody.insertRow();
-                        row.insertCell(0).textContent = score.subject;
-                        row.insertCell(1).textContent = score.score;
-                    });
-                })
-                .catch(error => console.error('Error:', error));
+   <script>
+    function fetchScores() {
+        let studentID = document.getElementById('studentID').value;
+        if (!studentID) {
+            alert('Please enter a Student ID');
+            return;
         }
-    </script>
+
+        fetch(`https://school-website-1-uxd9.onrender.com // ✅ Update with your actual Render backend URL
+            .then(response => response.json())
+            .then(data => {
+                let tableBody = document.getElementById('scoresBody');
+                tableBody.innerHTML = '';
+
+                if (data.length === 0) {
+                    let row = tableBody.insertRow();
+                    let cell = row.insertCell(0);
+                    cell.colSpan = 2;
+                    cell.textContent = "No records found";
+                    return;
+                }
+
+                data.forEach(score => {
+                    let row = tableBody.insertRow();
+                    row.insertCell(0).textContent = score.subject;
+                    row.insertCell(1).textContent = score.score;
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
+</script>
 </body>
 </html>
 
